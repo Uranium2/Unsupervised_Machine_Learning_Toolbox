@@ -26,7 +26,7 @@ class Kmeans:
             if self.should_stop(centroids, old_centroids) or ep == self.epochs:
                 updated = False
             ep += 1
-        
+
         self.centroids = centroids
 
     def encode(self, point):
@@ -36,10 +36,8 @@ class Kmeans:
         index_centroid = np.argmin(distances)
         return index_centroid
 
-
-
-    def decode(self):
-        pass
+    def decode(self, index):
+        return self.centroids[index]
 
     def cluster_to_center(self, centroids_one_hot):
         centroids = np.empty([self.K, np.shape(self.X)[1]])

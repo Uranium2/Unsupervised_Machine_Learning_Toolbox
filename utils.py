@@ -34,6 +34,7 @@ def load_from_numpy():
 
 def load_mnist():
     (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+    x_train = np.reshape(x_train, (np.shape(x_train)[0], np.shape(x_train)[1] * np.shape(x_train)[2]))
     return x_train, y_train
 
 
@@ -41,4 +42,4 @@ if __name__ == "__main__":
     # Xload_images("./simpsons_dataset", 100, 100, True), Y =
     # X, Y = load_from_numpy()
     X, Y = load_mnist()
-    print(X, Y)
+    # print(X, Y)
