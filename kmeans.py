@@ -1,12 +1,10 @@
 from dataclasses import dataclass
 import numpy as np
 from utils import load_images, load_from_numpy
-from numba import jit
-
 
 @dataclass
 class Kmeans:
-    X: np.array  # chaque ligne est une image
+    X: np.ndarray  # chaque ligne est une image
     # Y: int
     K: int
     epochs: int
