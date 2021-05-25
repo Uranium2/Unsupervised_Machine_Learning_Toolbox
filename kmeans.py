@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import numpy as np
 from utils import load_images, load_from_numpy
+from numba import jit
 
 
 @dataclass
