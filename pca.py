@@ -12,6 +12,8 @@ class Pca:
 
     X: np.ndarray
     n_components: int
+    X_PCA = None
+    main_composants = None
 
     def fit(self):
         # pca = PCA(self.n_components) 
@@ -38,14 +40,16 @@ class Pca:
 
         # Reduce data using main componants
         X_PCA = np.dot(main_composants.transpose(), X_centered.transpose()).transpose()
-        return (X_PCA)
+        self.X_PCA = X_PCA
+        self.main_composants = main_composants
+        return  X_PCA
 
 
-    def encode(self):
-        pass
+    def encode(self, X):
+        return np.dot(X, self.main_composants)
 
-    def decode(self):
-        pass
+    def decode(self, X):
+        return np.dot(X, np.transpose(self.main_composants))
 
 
 if __name__ == "__main__":
