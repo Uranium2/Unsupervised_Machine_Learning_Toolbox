@@ -4,8 +4,6 @@ from utils import load_images, load_from_numpy
 import matplotlib.pyplot as plt
 
 
-from sklearn.decomposition import PCA
-
 
 @dataclass
 class Pca:
@@ -16,11 +14,6 @@ class Pca:
     main_composants = None
 
     def fit(self):
-        # pca = PCA(self.n_components) 
-        # return pca.fit_transform(self.X)
-        # return  pca.fit_transform(self.X)
-        # print("Reduced: ", PCA.fit_transform(self.X))
-
         # Center Data
         X_centered = self.X - np.mean(self.X, axis=0)
 
@@ -44,6 +37,10 @@ class Pca:
         self.main_composants = main_composants
         return  X_PCA
 
+    def custom_cov(X):
+        X -= X.mean(axis=0) 
+        nb_item = np.shape(X)[0] - 1 
+        cov = np.dot(X.T, X) / nb_item
 
     def encode(self, X):
         return np.dot(X, self.main_composants)
