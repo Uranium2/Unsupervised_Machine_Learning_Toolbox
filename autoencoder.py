@@ -42,7 +42,6 @@ class AutoEncoder:
         optimizer = torch.optim.Adam(self.model_.parameters(), lr=lr, weight_decay=1e-5)
         outputs = []
         for epoch in tqdm.tqdm(range(epochs)):
-            print(epoch)
             for data in self.X:
                 x, _ = data
                 x = x.to(self.dev)
