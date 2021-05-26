@@ -63,17 +63,9 @@ class CustomDatasetFromFile(Dataset):
         # Open image
         im_as_im = Image.open(single_image_path)
 
-        # Do some operations on image
-        # Convert to numpy, dim = 28x28
         im_as_np = np.asarray(im_as_im)/255
-        # Add channel dimension, dim = 1x28x28
-        # Note: You do not need to do this if you are reading RGB images
-        # or i there is already channel dimension
+
         im_as_np = np.expand_dims(im_as_np, 0)
-        # Some preprocessing operations on numpy array
-        # ...
-        # ...
-        # ...
 
         # Transform image to tensor, change data type
         im_as_ten = torch.from_numpy(im_as_np).float()
