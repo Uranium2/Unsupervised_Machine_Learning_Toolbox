@@ -15,7 +15,8 @@ class Pca:
 
     def fit(self):
         # Center Data
-        X_centered = self.X - np.mean(self.X, axis=0)
+        self.mean = np.mean(self.X, axis=0)
+        X_centered = self.X - self.mean 
 
         # Covariance
         cov = np.cov(X_centered.T)
@@ -46,7 +47,7 @@ class Pca:
         return np.dot(X, self.main_composants)
 
     def decode(self, X):
-        return np.dot(X, np.transpose(self.main_composants))
+        return np.dot(X, np.transpose(self.main_composants)) + self.mean 
 
 
 if __name__ == "__main__":
