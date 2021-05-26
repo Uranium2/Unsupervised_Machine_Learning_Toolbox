@@ -7,40 +7,34 @@ import torch.nn as nn
 
 
 class AutoEncoder:
-    def __init__(self, n, m, X: np.ndarray):
+    def __init__(self, layers, X: np.ndarray):
+        torch.manual_seed(42)
         # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.X = X
-        # self.encode = nn.Sequential(
-        #     nn.Flatten(),
-        #     [nn.Linear(m / i, (m / i) * 2 ) for i  in range(1, n)]
-        # )
-        self.shape = next(iter(X))[0].size()[1]
-        self.encode_ = nn.Sequential(
-            nn.Linear(self.shape, 32),
-            nn.Sigmoid(),
-            nn.Linear(32, 16),
-            nn.Sigmoid(),
-            nn.Linear(16, 8),
-            nn.Sigmoid(),
-            nn.Linear(8, 4),
-            nn.Sigmoid(),
-            nn.Linear(4, 2)
-        )
 
-        self.decode_ = nn.Sequential(
-            nn.Linear(2, 4),
-            nn.Sigmoid(),
-            nn.Linear(4, 8),
-            nn.Sigmoid(),
-            nn.Linear(8, 16),
-            nn.Sigmoid(),
-            nn.Linear(16, 32),
-            nn.Sigmoid(),
-            nn.Linear(32, self.shape)
-        )
-        # self.decode = nn.Sequential(
-        #     [nn.Linear(m / i, (m / i) * 2 ) for i  in range(n, 1, -1)]
-        # )
+        self.shape = next(iter(X))[0].size()[1]
+
+        encode_layers = []
+
+        encode_layers.append(nn.Linear(self.shape, layers[0]))
+        for i, l in enumerate(layers):
+            if i == len(layers) - 1:
+                break
+            encode_layers.append(nn.Linear(l, layers[i + 1]))
+
+
+        self.encode_ = nn.Sequential(*encode_layers)
+
+        decode_layers = []
+        reverse_layer = layers[::-1]
+        for i, l in enumerate(reverse_layer):
+            if i == len(reverse_layer) - 1:
+                break
+            decode_layers.append(nn.Linear(l, reverse_layer[i + 1]))
+        decode_layers.append(nn.Linear(reverse_layer[-1], self.shape))
+
+        self.decode_ = nn.Sequential(*decode_layers)
+
         self.model_ = nn.Sequential(self.encode_, self.decode_)
 
     def fit(self, epochs, lr):
@@ -66,9 +60,11 @@ class AutoEncoder:
         return self.decode_(X)
 
 
-# if __name__ == "__main__":
-#     train_loader = load_mnist_PT()
-
-#     model = AutoEncoder(4, 32, train_loader)
-#     model.fit(2, 0.01)
+if __name__ == "__main__":
+    train_loader = load_mnist_PT()
+    layers = [32, 16, 8, 4, 2]
+    model = AutoEncoder(layers, train_loader)
+    # model.fit(2, 0.01)
+    print(model.encode_)
+    print(model.decode_)
 
