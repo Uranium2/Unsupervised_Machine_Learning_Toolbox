@@ -42,7 +42,7 @@ def load_mnist_PT():
                                     transforms.Lambda(lambda x: torch.flatten(x))
                                 ]))
     train_loader = torch.utils.data.DataLoader(mnist_data, 
-                                            batch_size=64, 
+                                            batch_size=64*64, 
                                             shuffle=True)
     return train_loader
 def load_mnist():
