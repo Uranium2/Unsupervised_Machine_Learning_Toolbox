@@ -4,6 +4,8 @@ from utils import load_images, load_mnist, load_from_numpy, load_mnist_PT
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
+import torch_xla
+import torch_xla.core.xla_model as xm
 
 
 class AutoEncoder:
@@ -41,7 +43,9 @@ class AutoEncoder:
         # self.decode = nn.Sequential(
         #     [nn.Linear(m / i, (m / i) * 2 ) for i  in range(n, 1, -1)]
         # )
-        self.model_ = nn.Sequential(self.encode_, self.decode_)
+
+        dev = xm.xla_device()
+        self.model_ = nn.Sequential(self.encode_, self.decode_).to(dev)
 
     def fit(self, epochs, lr):
         criterion = nn.MSELoss()
