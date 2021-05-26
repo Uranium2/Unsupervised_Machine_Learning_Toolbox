@@ -17,10 +17,12 @@ class AutoEncoder:
         encode_layers = []
 
         encode_layers.append(nn.Linear(self.shape, layers[0]))
+        encode_layers.append(nn.Sigmoid())
         for i, l in enumerate(layers):
             if i == len(layers) - 1:
                 break
             encode_layers.append(nn.Linear(l, layers[i + 1]))
+            encode_layers.append(nn.Sigmoid())
 
 
         self.encode_ = nn.Sequential(*encode_layers)
@@ -31,7 +33,9 @@ class AutoEncoder:
             if i == len(reverse_layer) - 1:
                 break
             decode_layers.append(nn.Linear(l, reverse_layer[i + 1]))
+            decode_layers.append(nn.Sigmoid())
         decode_layers.append(nn.Linear(reverse_layer[-1], self.shape))
+        decode_layers.append(nn.Sigmoid())
 
         self.decode_ = nn.Sequential(*decode_layers)
 
@@ -65,6 +69,7 @@ if __name__ == "__main__":
     layers = [32, 16, 8, 4, 2]
     model = AutoEncoder(layers, train_loader)
     # model.fit(2, 0.01)
-    print(model.encode_)
-    print(model.decode_)
+    # print(model.encode_)
+    # print(model.decode_)
+    print(model.model_)
 
