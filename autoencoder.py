@@ -16,6 +16,7 @@ class AutoEncoder:
         #     nn.Flatten(),
         #     [nn.Linear(m / i, (m / i) * 2 ) for i  in range(1, n)]
         # )
+        dev = xm.xla_device()
         self.shape = next(iter(X))[0].size()[1]
         self.encode_ = nn.Sequential(
             nn.Linear(self.shape, 32),
@@ -27,7 +28,7 @@ class AutoEncoder:
             nn.Linear(8, 4),
             nn.Sigmoid(),
             nn.Linear(4, 2)
-        )
+        ).to(dev)
 
         self.decode_ = nn.Sequential(
             nn.Linear(2, 4),
@@ -39,12 +40,12 @@ class AutoEncoder:
             nn.Linear(16, 32),
             nn.Sigmoid(),
             nn.Linear(32, self.shape)
-        )
+        ).to(dev)
         # self.decode = nn.Sequential(
         #     [nn.Linear(m / i, (m / i) * 2 ) for i  in range(n, 1, -1)]
         # )
 
-        dev = xm.xla_device()
+        
         self.model_ = nn.Sequential(self.encode_, self.decode_).to(dev)
 
     def fit(self, epochs, lr):
