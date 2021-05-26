@@ -57,8 +57,8 @@ class AutoEncoder:
         for epoch in range(epochs):
             print(epoch)
             for data in self.X:
-                data = data.to(self.dev)
                 x, _ = data
+                x = x.to(self.dev)
                 out = self.model_(x)
                 loss = criterion(out, x)
                 loss.backward()
