@@ -3,6 +3,8 @@ import glob
 from PIL import Image
 import numpy as np
 from tensorflow import keras
+import torch
+from torchvision import datasets, transforms
 
 
 def load_images(path, image_width, image_height, save=False):
@@ -31,7 +33,15 @@ def load_images(path, image_width, image_height, save=False):
 def load_from_numpy():
     return np.load("X.npy"), np.load("Y.npy")
 
-
+def load_mnist_PT():
+    mnist_data = datasets.MNIST(".", True, download=True, transform=transforms.Compose([
+                                transforms.ToTensor(),
+                                    transforms.Lambda(lambda x: torch.flatten(x))
+                                ]))
+    train_loader = torch.utils.data.DataLoader(mnist_data, 
+                                            batch_size=64, 
+                                            shuffle=True)
+    return train_loader
 def load_mnist():
     (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
     x_train = np.reshape(x_train, (np.shape(x_train)[0], np.shape(x_train)[1] * np.shape(x_train)[2]))
