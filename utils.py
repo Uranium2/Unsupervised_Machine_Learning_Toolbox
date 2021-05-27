@@ -7,6 +7,7 @@ import torch
 
 from torchvision import datasets, transforms
 from torch.utils.data.dataset import Dataset
+import tensorflow as tf
 
 
 
@@ -49,6 +50,12 @@ def load_mnist():
     (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
     x_train = np.reshape(x_train, (np.shape(x_train)[0], np.shape(x_train)[1] * np.shape(x_train)[2]))
     return x_train, y_train
+
+def load_mnist2():
+    (train_images, train_labels), (_, _) = tf.keras.datasets.mnist.load_data()
+    train_images = train_images.reshape(train_images.shape[0], 28, 28, 1).astype('float32')
+    train_images = (train_images - 127.5) / 127.5  # Normalize the images to [-1, 1]
+    return tf.data.Dataset.from_tensor_slices(train_images).shuffle(60000).batch(256)
 
 
 class CustomDatasetFromFile(Dataset):
