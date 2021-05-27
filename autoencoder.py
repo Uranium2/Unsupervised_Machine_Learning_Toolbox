@@ -35,7 +35,7 @@ class AutoEncoder:
 
     def init_decode_model(self, layers, activation, last_activation):
         decode_layers = []
-        reverse_layer = layers[::-1]
+        reverse_layer = layers[1::-1]
         for i, l in enumerate(reverse_layer):
             if i == len(reverse_layer) - 1:
                 break
