@@ -45,10 +45,19 @@ def load_mnist_PT():
     train_loader = torch.utils.data.DataLoader(mnist_data, 
                                             batch_size=64, 
                                             shuffle=True)
+
+def load_mnist_CNN_PT(batch_size):
+    mnist_data = datasets.MNIST(".", True, download=True, transform=transforms.Compose([
+                                transforms.ToTensor(),
+                                ]))
+    train_loader = torch.utils.data.DataLoader(mnist_data, 
+                                            batch_size=batch_size, 
+                                            shuffle=True)
     return train_loader
 def load_mnist():
     (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
     x_train = np.reshape(x_train, (np.shape(x_train)[0], np.shape(x_train)[1] * np.shape(x_train)[2]))
+    x_train  = x_train / 255.0
     return x_train, y_train
 
 def load_mnist2():
