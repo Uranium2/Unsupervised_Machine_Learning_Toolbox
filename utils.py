@@ -87,7 +87,7 @@ def load_mnist2():
 
 
 class CustomDatasetFromFile(Dataset):
-    def __init__(self, folder_path):
+    def __init__(self, folder_path, image_width, image_height):
         """
         A dataset example where the class is embedded in the file names
         This data example also does not use any torch transforms
@@ -95,6 +95,8 @@ class CustomDatasetFromFile(Dataset):
         Args:
             folder_path (string): path to image folder
         """
+        self.image_height = image_height
+        self.image_width = image_width
         # Get image list
         self.image_list = glob.glob(folder_path + "/*/*.jpg")
         self.image_list_label = np.array(
@@ -108,6 +110,10 @@ class CustomDatasetFromFile(Dataset):
         single_image_path = self.image_list[index]
         # Open image
         im_as_im = Image.open(single_image_path)
+        
+        im_as_im = np.array(
+            im_as_im.resize((self.image_width, self.image_height), Image.ANTIALIAS)
+        ).flatten()
 
         im_as_np = np.asarray(im_as_im) / 255
 
