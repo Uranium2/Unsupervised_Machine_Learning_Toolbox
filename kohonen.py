@@ -38,15 +38,18 @@ class Kohonen():
     
     def fit(self, epochs, lr, gamma):
         for i in range(epochs) :
-            if i % 1000 == 0:
+            if i % 10000 == 0:
                 print(i)
             idx = np.random.choice(np.shape(self.X)[0], 1, replace=False)
             example = self.X[idx]
             closest_y, closest_x = self.find_closest_k(example)
             self.update_kmap(closest_y, closest_x, example, lr, gamma)
     
-    def display_grid(self):
-        f, fig = plt.subplots(self.size_map[0], self.size_map[1])
+    def display_grid(self, shape, cast_, isGray=False,):
+        f, fig = plt.subplots(self.size_map[0], self.size_map[1], figsize=(10, 10))
         for y in range(self.Kmap.shape[0]):
             for i, x in enumerate(range(self.Kmap.shape[1])):
-                fig[y, x].imshow(np.reshape(self.Kmap[y, x], (28,28)), cmap='gray')
+                if isGray:
+                    fig[y, x].imshow(np.reshape(self.Kmap[y, x], shape).astype(cast_), cmap="gray")
+                else:
+                    fig[y, x].imshow(np.reshape(self.Kmap[y, x], shape).astype(cast_))
