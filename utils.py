@@ -8,6 +8,7 @@ import torch
 from torchvision import datasets, transforms
 from torch.utils.data.dataset import Dataset
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
 
 def load_images(path, image_width, image_height, save=False):
@@ -123,9 +124,14 @@ class CustomDatasetFromFile(Dataset):
 
 
 if __name__ == "__main__":
-    # Xload_images("./simpsons_dataset", 100, 100, True), Y =
-    # X, Y = load_from_numpy()
+    # X, Y = load_images("./simpsons_dataset", 25, 25, True)
+    X, Y = load_from_numpy("X.npy", "Y.npy")
+    print(np.shape(X))
+    print(np.shape(X[0]))
+    print(np.reshape(X[0], (25, 25, 3)))
+    plt.imshow(np.reshape(X[0], (25, 25, 3)))
+    plt.show()
     # X, Y = load_mnist()
     # print(X, Y)
-    X = CustomDatasetFromFile("./simpsons_dataset")
-    print(X.__getitem__(10))
+    # X = CustomDatasetFromFile("./simpsons_dataset")
+    # print(X.__getitem__(10))
