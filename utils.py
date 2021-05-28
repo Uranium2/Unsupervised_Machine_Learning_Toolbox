@@ -33,8 +33,8 @@ def load_images(path, image_width, image_height, save=False):
     return X, Y
 
 
-def load_from_numpy():
-    return np.load("X.npy"), np.load("Y.npy")
+def load_from_numpy(path_X, path_Y):
+    return np.load(path_X), np.load(path_Y)
 
 
 def load_mnist_PT():
