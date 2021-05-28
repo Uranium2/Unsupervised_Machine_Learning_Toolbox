@@ -45,6 +45,7 @@ def load_mnist_PT():
     train_loader = torch.utils.data.DataLoader(mnist_data, 
                                             batch_size=64, 
                                             shuffle=True)
+    return train_loader
 
 def load_mnist_CNN_PT(batch_size):
     mnist_data = datasets.MNIST(".", True, download=True, transform=transforms.Compose([

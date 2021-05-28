@@ -35,7 +35,7 @@ class AutoEncoder:
 
     def init_decode_model(self, layers, activation, last_activation):
         decode_layers = []
-        reverse_layer = layers[1::-1]
+        reverse_layer = layers[::-1]
         for i, l in enumerate(reverse_layer):
             if i == len(reverse_layer) - 1:
                 break
@@ -69,5 +69,9 @@ class AutoEncoder:
 
 if __name__ == "__main__":
     train_loader = load_mnist_PT()
-    layers = [32, 16, 8, 4, 2]
-    model = AutoEncoder(layers, train_loader, nn.Sigmoid())
+    layers = [32, 16, 8]
+    activ_func_latent = nn.ReLU()
+    model = AutoEncoder(layers, train_loader, nn.ReLU(), activ_func_latent, nn.ReLU())
+    # model.fit(20, 1e-4)
+    print(model.model_)
+
