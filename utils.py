@@ -105,25 +105,31 @@ class CustomDatasetFromFile(Dataset):
         # Calculate len
         self.data_len = len(self.image_list)
 
+        self.X = []
+
+        for index in range(self.data_len):
+            single_image_path = self.image_list[index]
+            # Open image
+            im_as_im = Image.open(single_image_path)
+            
+            im_as_im = np.array(
+                im_as_im.resize((self.image_width, self.image_height), Image.ANTIALIAS)
+            ).flatten()
+
+            im_as_np = np.asarray(im_as_im) / 255
+
+            im_as_np = np.expand_dims(im_as_np, 0)
+
+            # Transform image to tensor, change data type
+            self.X.append(torch.from_numpy(im_as_np).float())
+
+
     def __getitem__(self, index):
         # Get image name from the pandas df
-        single_image_path = self.image_list[index]
-        # Open image
-        im_as_im = Image.open(single_image_path)
-        
-        im_as_im = np.array(
-            im_as_im.resize((self.image_width, self.image_height), Image.ANTIALIAS)
-        ).flatten()
 
-        im_as_np = np.asarray(im_as_im) / 255
-
-        im_as_np = np.expand_dims(im_as_np, 0)
-
-        # Transform image to tensor, change data type
-        im_as_ten = torch.from_numpy(im_as_np).float()
-
+        x = self.X[index]
         label = self.image_list_label[index]
-        return (im_as_ten, label)
+        return (x, label)
 
     def __len__(self):
         return self.data_len
