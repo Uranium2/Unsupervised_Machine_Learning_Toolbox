@@ -72,6 +72,6 @@ if __name__ == "__main__":
     layers = [32, 16, 8]
     activ_func_latent = nn.ReLU()
     model = AutoEncoder(layers, train_loader, nn.ReLU(), activ_func_latent, nn.ReLU())
-    # model.fit(20, 1e-4)
+    model.fit(20, 1e-4)
     print(model.model_)
 

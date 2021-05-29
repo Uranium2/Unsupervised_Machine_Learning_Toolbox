@@ -136,7 +136,7 @@ class CustomDatasetFromFile(Dataset):
 
 
 if __name__ == "__main__":
-    # X, Y = load_images("./simpsons_dataset", 25, 25, True)
+    X, Y = load_images("./simpsons_dataset", 28, 28, True)
     # X, Y = load_from_numpy("X.npy", "Y.npy")
     # print(np.shape(X))
     # print(np.shape(X[0]))
@@ -145,5 +145,5 @@ if __name__ == "__main__":
     # plt.show()
     # X, Y = load_mnist()
     # print(X, Y)
-    X = CustomDatasetFromFile("./simpsons_dataset", 25, 25)
-    print(X.__getitem__(10))
+    # X = CustomDatasetFromFile("./simpsons_dataset", 25, 25)
+    # print(X.__getitem__(10))
